@@ -1,6 +1,6 @@
 # FreshStore — Food Store Management System
 
-> A full-stack web application for managing a small food store's stock, sales, dashboard insights, and reports. Built as a two-stage practical assignment: **Stage 1** (Figma wireframes) → **Stage 2** (working Node.js + React application).
+> A full-stack web application for managing a small food store's stock, sales, dashboard insights, and reports.
 
 ---
 
