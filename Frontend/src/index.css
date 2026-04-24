@@ -1,0 +1,104 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --font: "DM Sans", sans-serif;
+  --mono: "DM Mono", monospace;
+
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --surface2: #f0ede6;
+  --border: #e2ddd6;
+  --border2: #ccc8c0;
+
+  --text: #1a1916;
+  --text2: #6b6860;
+  --text3: #9e9b94;
+
+  --green: #2d7d52;
+  --green-bg: #eaf5ee;
+  --green-bd: #b4ddc2;
+
+  --red: #c0392b;
+  --red-bg: #fdf0ee;
+  --red-bd: #f0b8b3;
+
+  --amber: #b45309;
+  --amber-bg: #fef9ee;
+  --amber-bd: #f0d9a0;
+
+  --blue: #1d4ed8;
+  --blue-bg: #eff3ff;
+  --blue-bd: #bfcffa;
+
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+input,
+select,
+textarea,
+button {
+  font-family: var(--font);
+  font-size: 14px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border2);
+  border-radius: 3px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.25s ease both;
+}

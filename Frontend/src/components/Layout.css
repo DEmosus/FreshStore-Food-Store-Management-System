@@ -1,0 +1,124 @@
+.layout-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top bar ─────────────────────────────────────── */
+.layout-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 0 var(--border);
+}
+
+.layout-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.layout-logo-icon {
+  width: 30px;
+  height: 30px;
+  background: #1a1916;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.layout-logo-name {
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.2px;
+  color: var(--text);
+}
+
+/* ── Nav ─────────────────────────────────────────── */
+.layout-nav {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.layout-nav-link {
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  background: transparent;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+
+.layout-nav-link:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.layout-nav-link.active {
+  color: var(--text);
+  background: var(--surface2);
+}
+
+/* ── User menu ───────────────────────────────────── */
+.layout-user-menu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.layout-user-name {
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.layout-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #1a1916;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.layout-logout-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.15s;
+}
+
+.layout-logout-btn:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+/* ── Main content ────────────────────────────────── */
+.layout-main {
+  flex: 1;
+  padding: 28px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}

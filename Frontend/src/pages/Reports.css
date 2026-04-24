@@ -1,0 +1,124 @@
+.reports-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.reports-title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  margin: 0 0 3px;
+}
+
+.reports-subtitle {
+  font-size: 13px;
+  color: var(--text2);
+  margin: 0;
+}
+
+/* ── Filters ─────────────────────────────────────── */
+.reports-filters-card {
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.reports-filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.reports-filter-field {
+  flex: 1;
+  min-width: 140px;
+}
+
+/* ── Stats grid ──────────────────────────────────── */
+.reports-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+/* ── Summary table card ──────────────────────────── */
+.reports-card {
+  margin-bottom: 20px;
+}
+
+.reports-card-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reports-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.reports-record-count {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+/* ── Shared table styles ─────────────────────────── */
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.reports-table thead tr {
+  background: var(--surface2);
+}
+
+.reports-table th {
+  padding: 9px 16px;
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.reports-table th.align-right { text-align: right; }
+.reports-table th.align-left  { text-align: left;  }
+
+.reports-table td {
+  padding: 9px 16px;
+}
+
+.reports-table td.fw-medium   { font-weight: 500; }
+.reports-table td.align-right { text-align: right; }
+.reports-table td.mono        { font-family: var(--mono); font-size: 12px; }
+.reports-table td.mono-bold   { font-family: var(--mono); font-size: 12px; font-weight: 500; }
+.reports-table td.text-muted  { color: var(--text2); }
+
+.reports-table tbody tr {
+  border-top: 1px solid var(--border);
+}
+
+/* ── Totals footer ───────────────────────────────── */
+.reports-table tfoot tr {
+  border-top: 2px solid var(--border);
+  background: var(--surface2);
+}
+
+.reports-table tfoot td {
+  padding: 10px 16px;
+  font-weight: 600;
+}
+
+.reports-total-value {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green);
+}

@@ -1,0 +1,154 @@
+.entry-form-page {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.entry-form-back-btn {
+  background: none;
+  border: none;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 13px;
+  margin-bottom: 12px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font);
+}
+
+.entry-form-back-btn:hover { color: var(--text); }
+
+.entry-form-title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  margin: 0 0 3px;
+}
+
+.entry-form-subtitle {
+  font-size: 13px;
+  color: var(--text2);
+  margin: 0;
+}
+
+.entry-form-header {
+  margin-bottom: 24px;
+}
+
+.entry-form-card {
+  padding: 24px;
+}
+
+.entry-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.entry-form-alert-wrap {
+  margin-bottom: 16px;
+}
+
+/* ── Type toggle ─────────────────────────────────── */
+.type-toggle-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.type-toggle {
+  display: flex;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  width: fit-content;
+}
+
+.type-toggle-btn {
+  padding: 7px 22px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font);
+}
+
+.type-toggle-btn-stock-active { background: var(--green-bg); color: var(--green); }
+.type-toggle-btn-sale-active  { background: var(--red-bg);   color: var(--red);   }
+.type-toggle-btn-inactive     { background: var(--surface);  color: var(--text2); }
+.type-toggle-divider          { border-right: 1px solid var(--border); }
+
+/* ── Two-column fields ───────────────────────────── */
+.entry-form-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ── Notes textarea ──────────────────────────────── */
+.entry-form-textarea {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  resize: vertical;
+  outline: none;
+  font-family: var(--font);
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.entry-form-textarea:focus { border-color: #1a1916; }
+
+.entry-form-notes-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.entry-form-notes-optional {
+  font-weight: 400;
+  color: var(--text3);
+}
+
+/* ── Total preview ───────────────────────────────── */
+.entry-form-total {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.entry-form-total-label {
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.entry-form-total-value {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--mono);
+}
+
+/* ── Action buttons ──────────────────────────────── */
+.entry-form-actions {
+  display: flex;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.entry-form-submit-btn {
+  flex: 1;
+}

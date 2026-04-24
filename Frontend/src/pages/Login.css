@@ -1,0 +1,87 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 24px;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* ── Logo / header ───────────────────────────────── */
+.login-logo-wrap {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login-logo-icon {
+  width: 48px;
+  height: 48px;
+  background: #1a1916;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.login-title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  margin: 0 0 4px;
+  color: var(--text);
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: var(--text2);
+  margin: 0;
+}
+
+/* ── Card ────────────────────────────────────────── */
+.login-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-alert-wrap {
+  margin-bottom: 16px;
+}
+
+.login-submit-btn {
+  margin-top: 4px;
+  width: 100%;
+}
+
+/* ── Switch mode ─────────────────────────────────── */
+.login-switch {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.login-switch-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: var(--font);
+  text-decoration: underline;
+}
