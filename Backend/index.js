@@ -19,6 +19,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "FreshStore API is running 🚀",
+  });
+});
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/entries", require("./routes/entries"));
 
