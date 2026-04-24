@@ -1,175 +1,288 @@
 # FreshStore — Food Store Management System
 
-A full-stack web application for managing a small food store's stock and sales, with authentication, data entry, a live dashboard, and reports.
+> A full-stack web application for managing a small food store's stock, sales, dashboard insights, and reports. Built as a two-stage practical assignment: **Stage 1** (Figma wireframes) → **Stage 2** (working Node.js + React application).
+
+---
+
+## Project Overview
+
+FreshStore helps a store owner or manager:
+
+- Record **stock deliveries** and **sales transactions**
+- Monitor **live inventory levels** with low-stock alerts
+- View a **dashboard** with summary cards and recent activity
+- Generate **filtered reports** and export them as CSV
+- Secure all data behind **JWT authentication**
+
+---
+
+## Repository Structure
+
+```
+freshstore/                              ← Root (this README)
+├── package.json                         ← Root scripts — runs both Backend + Frontend
+├── README.md                            ← You are here
+│
+├── Backend/                              ← Node.js + Express backend
+│   ├── README.md                        ← Backend-specific documentation
+│   ├── .env.example                     ← Environment variable template
+│   ├── index.js                         ← Express entry point
+│   ├── package.json
+│   ├── config/
+│   │   └── db.js                        ← MongoDB connection
+│   ├── models/
+│   │   ├── User.js                      ← User schema (bcrypt hashing)
+│   │   └── Entry.js                     ← Stock/sale entry schema
+│   ├── controllers/
+│   │   ├── authController.js            ← Register, login, get-me
+│   │   └── entryController.js           ← CRUD + dashboard + report aggregations
+│   ├── routes/
+│   │   ├── auth.js                      ← Auth routes
+│   │   └── entries.js                   ← Entry routes
+│   └── middleware/
+│       └── auth.js                      ← JWT protect middleware
+│
+└── Frontend/                              ← React + Vite frontend
+    ├── README.md                        ← Frontend-specific documentation
+    ├── index.html
+    ├── vite.config.js                   ← Dev server + API proxy
+    ├── package.json
+    └── src/
+        ├── App.jsx                      ← Router + route definitions
+        ├── main.jsx                     ← React DOM entry point
+        ├── index.css                    ← Global CSS variables + base styles
+        ├── context/
+        │   ├── AuthContext.jsx          ← Auth state provider
+        │   └── useAuth.js               ← useAuth hook
+        ├── services/
+        │   ├── api.js                   ← Axios instance + 401 interceptor
+        │   └── entries.js               ← Entry API calls
+        ├── components/
+        │   ├── Layout.jsx + Layout.css
+        │   ├── ProtectedRoute.jsx
+        │   └── UI.jsx + UI.css
+        └── pages/
+            ├── Login.jsx + Login.css
+            ├── Dashboard.jsx + Dashboard.css
+            ├── EntryForm.jsx + EntryForm.css
+            ├── Entries.jsx + Entries.css
+            └── Reports.jsx + Reports.css
+```
+
+---
+
+## How Frontend and Backend Work Together
+
+```
+┌─────────────────────────────────────┐
+│         Browser                     │
+│   React app  (Vite : 5173)          │
+│                                     │
+│  1. User logs in                    │
+│  2. JWT token stored in             │
+│     localStorage                   │
+│  3. Token sent in every             │
+│     Authorization header            │
+└──────────────┬──────────────────────┘
+               │  HTTP  /api/*
+               │  (proxied by Vite in dev)
+               ▼
+┌─────────────────────────────────────┐
+│         Express Server : 5000       │
+│                                     │
+│  POST /api/auth/login               │
+│  POST /api/auth/register            │
+│  GET  /api/auth/me                  │
+│                                     │
+│  GET    /api/entries                │
+│  POST   /api/entries                │
+│  PUT    /api/entries/:id            │
+│  DELETE /api/entries/:id            │
+│  GET    /api/entries/stats/dashboard│
+│  GET    /api/entries/stats/report   │
+└──────────────┬──────────────────────┘
+               │  Mongoose
+               ▼
+┌─────────────────────────────────────┐
+│         MongoDB                     │
+│   Collections: users, entries       │
+└─────────────────────────────────────┘
+```
+
+### Development proxy
+
+In development, Vite's dev server is configured to forward any request starting with `/api` to `http://localhost:5000`. This means the React app simply calls `/api/entries` — no hardcoded backend URL needed.
+
+```js
+// Frontend/vite.config.js
+server: {
+  proxy: {
+    '/api': { target: 'http://localhost:5000', changeOrigin: true }
+  }
+}
+```
+
+### Authentication flow
+
+```
+1. User submits login form
+        ↓
+2. POST /api/auth/login  →  Server validates credentials
+        ↓
+3. Server returns { token, user }
+        ↓
+4. Frontend stores token in localStorage
+   Sets axios default header:
+   Authorization: Bearer <token>
+        ↓
+5. Every subsequent API call carries the token
+        ↓
+6. auth middleware on the server verifies the token
+   and attaches req.user before passing to controller
+```
 
 ---
 
 ## Tech Stack
 
-| Layer     | Technology                         |
-|-----------|------------------------------------|
-| Frontend  | React 18 + Vite + React Router     |
-| Backend   | Node.js + Express                  |
-| Database  | MongoDB + Mongoose                 |
-| Auth      | JWT + bcryptjs                     |
-| Styling   | Plain CSS (CSS variables)          |
+| Layer         | Technology                           |
+| ------------- | ------------------------------------ |
+| Frontend      | React 18, Vite, React Router v6      |
+| Backend       | Node.js 18+, Express 4               |
+| Database      | MongoDB 6+ with Mongoose             |
+| Auth          | JWT (jsonwebtoken) + bcryptjs        |
+| HTTP Frontend | Axios                                |
+| Styling       | Plain CSS with CSS custom properties |
+| Dev tooling   | concurrently, nodemon                |
 
 ---
 
-## Project Structure
+## Prerequisites
 
-```
-freshstore/
-├── server/                  # Express API
-│   ├── config/db.js         # MongoDB connection
-│   ├── models/              # Mongoose models
-│   │   ├── User.js
-│   │   └── Entry.js
-│   ├── controllers/         # Route handlers
-│   │   ├── authController.js
-│   │   └── entryController.js
-│   ├── routes/              # Express routers
-│   │   ├── auth.js
-│   │   └── entries.js
-│   ├── middleware/auth.js   # JWT protect middleware
-│   ├── .env.example
-│   └── index.js             # Entry point
-│
-└── client/                  # React SPA
-    └── src/
-        ├── context/         # AuthContext (user state)
-        ├── services/        # Axios API calls
-        ├── components/      # Reusable UI + Layout
-        └── pages/           # Login, Dashboard, EntryForm, Entries, Reports
-```
+| Tool    | Minimum version                                                  | Check with         |
+| ------- | ---------------------------------------------------------------- | ------------------ |
+| Node.js | 18.x                                                             | `node -v`          |
+| npm     | 9.x                                                              | `npm -v`           |
+| MongoDB | 6.x local **or** free [Atlas](https://cloud.mongodb.com) cluster | `mongod --version` |
 
 ---
 
-## Setup Instructions
+## Quick Start
 
-### Prerequisites
-- Node.js 18+
-- MongoDB (local or [MongoDB Atlas](https://cloud.mongodb.com) free tier)
-
----
-
-### 1. Clone and install dependencies
+### 1. Clone
 
 ```bash
-git clone <your-repo-url>
-cd freshstore
-
-# Install root deps (concurrently)
-npm install
-
-# Install server deps
-cd server && npm install && cd ..
-
-# Install client deps
-cd client && npm install && cd ..
+git clone https://github.com/DEmosus/FreshStore-Food-Store-Management-System.git
+cd FreshStore-Food-Store-Management-System.git
 ```
 
----
-
-### 2. Configure environment variables
+### 2. Install all dependencies
 
 ```bash
-cd server
+npm run install:all
+```
+
+This runs `npm install` inside root, `Backend/`, and `Frontend/` in one command.
+
+### 3. Configure environment variables
+
+```bash
+cd Backend
 cp .env.example .env
 ```
 
-Edit `server/.env`:
+Edit `Backend/.env`:
 
 ```env
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/freshstore
-JWT_SECRET=replace-with-a-long-random-string
+JWT_SECRET=replace-with-a-long-random-secret
 JWT_EXPIRE=7d
 NODE_ENV=development
 ```
 
-> **MongoDB Atlas**: Replace `MONGODB_URI` with your Atlas connection string, e.g.:
-> `mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/freshstore`
+> **MongoDB Atlas:** swap `MONGODB_URI` for your Atlas connection string.
 
----
-
-### 3. Run the application
-
-**Development (both server + client):**
+### 4. Run in development
 
 ```bash
-# From root directory
+# From the root directory
 npm run dev
 ```
 
-This starts:
-- **Backend** → `http://localhost:5000`
-- **Frontend** → `http://localhost:5173`
+Both servers start together:
 
-**Production (server only, after building frontend):**
+| Service           | URL                              |
+| ----------------- | -------------------------------- |
+| Frontend (Vite)   | http://localhost:5173            |
+| Backend (Express) | http://localhost:5000            |
+| API health check  | http://localhost:5000/api/health |
+
+### 5. Create your first account
+
+1. Open http://localhost:5173
+2. Click **Register** on the login page
+3. Fill in name, email, and password
+4. You are taken straight to the dashboard
+
+---
+
+## Root Scripts
+
+| Script                | What it does                                          |
+| --------------------- | ----------------------------------------------------- |
+| `npm run install:all` | Installs deps for root, server, and Frontend          |
+| `npm run dev`         | Starts backend (nodemon) and frontend (Vite) together |
+| `npm start`           | Starts the production backend server only             |
+
+---
+
+## Application Pages
+
+| Route               | Page           | Protected |
+| ------------------- | -------------- | --------- |
+| `/login`            | Login/Register | No        |
+| `/dashboard`        | Dashboard      | Yes       |
+| `/entries`          | Entries list   | Yes       |
+| `/add-entry`        | Add entry      | Yes       |
+| `/entries/:id/edit` | Edit entry     | Yes       |
+| `/reports`          | Reports        | Yes       |
+
+---
+
+## Production Build
+
+### 1. Build the React app
 
 ```bash
-cd client && npm run build
-cd ../server && npm start
+cd Frontend
+npm run build
+# Output written to Frontend/dist/
 ```
 
----
+### 2. Serve from Express
 
-### 4. Create your first account
+Add the following to `Backend/index.js` **after** all API routes:
 
-1. Open `http://localhost:5173`
-2. Click **Register** on the login page
-3. Fill in your name, email, and password
-4. You're in!
+```js
+const path = require("path");
 
----
+app.use(express.static(path.join(__dirname, "../Frontend/dist")));
 
-## API Endpoints
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend/dist/index.html"));
+});
+```
 
-### Auth
-| Method | Route              | Description         | Auth |
-|--------|--------------------|---------------------|------|
-| POST   | /api/auth/register | Register new user   | No   |
-| POST   | /api/auth/login    | Login               | No   |
-| GET    | /api/auth/me       | Get current user    | Yes  |
+### 3. Deploy
 
-### Entries
-| Method | Route                        | Description              | Auth |
-|--------|------------------------------|--------------------------|------|
-| GET    | /api/entries                 | List entries (filterable)| Yes  |
-| POST   | /api/entries                 | Create entry             | Yes  |
-| GET    | /api/entries/:id             | Get single entry         | Yes  |
-| PUT    | /api/entries/:id             | Update entry             | Yes  |
-| DELETE | /api/entries/:id             | Delete entry             | Yes  |
-| GET    | /api/entries/stats/dashboard | Dashboard statistics     | Yes  |
-| GET    | /api/entries/stats/report    | Report aggregations      | Yes  |
-
-### Query Parameters for GET /api/entries
-- `type` — `stock` or `sale`
-- `itemName` — partial match (regex)
-- `startDate` — ISO date string
-- `endDate` — ISO date string
-- `page` — page number (default: 1)
-- `limit` — results per page (default: 50)
+Upload the entire `freshstore/` directory to your host (Render, Railway, VPS, etc.) and set the environment variables in your hosting dashboard. Run `npm start` as the start command.
 
 ---
 
-## Features
+## Related Documentation
 
-- **Authentication** — Register/login with JWT tokens, password hashing with bcrypt, protected routes
-- **Dashboard** — Live stats: total stock value, sales revenue, today's activity, low stock alerts, inventory progress bars
-- **Data Entry** — Add stock or sale entries with validation; dropdown of common items + custom item support; auto-calculated total
-- **Entries List** — Full CRUD (create, read, update, delete) with search and filter
-- **Reports** — Filter by date range and type; per-item summary; totals footer; CSV export
-
----
-
-## Environment Variables
-
-| Variable      | Description                              | Default                        |
-|---------------|------------------------------------------|--------------------------------|
-| PORT          | Server port                              | 5000                           |
-| MONGODB_URI   | MongoDB connection string                | mongodb://localhost:27017/freshstore |
-| JWT_SECRET    | Secret key for signing JWTs             | (required — change this!)      |
-| JWT_EXPIRE    | JWT expiry duration                      | 7d                             |
-| NODE_ENV      | Environment                              | development                    |
+| Document           | Location             |
+| ------------------ | -------------------- |
+| Backend (API) docs | `Backend/README.md`  |
+| Frontend (UI) docs | `Frontend/README.md` |
